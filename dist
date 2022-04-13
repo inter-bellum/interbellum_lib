@@ -1,0 +1,21 @@
+#!/bin/sh
+arduino_dir="/Applications/Teensyduino.app/Contents/Java/hardware/"
+dest=("arduino/avr/cores/arduino" "teensy/avr/cores/teensy" "teensy/avr/cores/teensy3" "teensy/avr/cores/teensy4")
+input="./list"
+files=()
+
+while read -r line; do
+    files+=($line)
+done < "$input"
+
+for d in ${dest[@]}; do
+    for f in ${files[@]}; do
+        if test -f "${f}.cpp"; then
+            cp "${f}.cpp" "${arduino_dir}${d}"
+        fi
+
+        if test -f "${f}.hpp"; then
+            cp "${f}.hpp" "${arduino_dir}${d}"
+        fi
+    done
+done
